@@ -1,30 +1,36 @@
 % Social Distancing Detection (Image)
 clear, clc, close all
 
-detector = peopleDetectorACF();
-
 % Image Selection
-imgfile = uigetfile({'.jpg'});
-image = imread(imgfile);
-%image = imread('distancing1.jpg');
+[filename,pathname]=uigetfile('*.*','Select the Input Image');
+filewithpath=strcat(pathname,filename);
+image = imread(filewithpath);
 
-% Create boxes for people detected in the image
-[bboxes, scores] = detect(detector,image);
+% Create detector variable & boxes for people detected in the image
+detector = peopleDetectorACF();
+[bboxes,scores] = detect(detector,image);
 
 % Check for all boxes and compare distances
-for i = 2:size(bboxes,1)
-    dis1_v = abs(bboxes(1,1)+bboxes(1,3)-bboxes(1,1));
-    dis2_v = abs(bboxes(i,1)+bboxes(i,3)-bboxes(1,1));
-    dis1_h = abs(bboxes(1,2)-bboxes(i,2));
-    dis2_h = abs(bboxes(1,2)+bboxes(1,4)-bboxes(i,2)-bboxes(i,4));
-    if ((dis1_v < 75 || dis2_v < 75) && (dis1_h < 50 || dis2_h < 50))
-        image = insertObjectAnnotation(image,'rectangle',bboxes(i,:),i,'color','r');
-        image = insertObjectAnnotation(image,'rectangle',bboxes(i,:),i,'color','r');
-    else
-        image = insertObjectAnnotation(image,'rectangle',bboxes(i,:),i,'color','g'); 
+cond = zeros(size(bboxes,1),1);
+if ~isempty(bboxes)
+    for i=1:(size(bboxes,1)-1)
+        for j=(i+1):(size(bboxes,1)-1)
+             dis1_v = abs(bboxes(i,1)+bboxes(i,3)-bboxes(j,1));
+             dis2_v = abs(bboxes(j,1)+bboxes(j,3)-bboxes(i,1));
+             dis1_h = abs(bboxes(i,2)-bboxes(j,2));
+             dis2_h = abs(bboxes(i,2)+bboxes(i,4)-bboxes(j,2)-bboxes(j,4));
+             if((dis1_v<75 || dis2_v<75) && (dis1_h<50 || dis2_h<50))
+                cond(i)=cond(i)+1;
+                cond(j)=cond(j)+1;
+             else
+                cond(i)=cond(i)+0; 
+             end
+        end
     end
 end
-
+image = insertObjectAnnotation(image,'rectangle',bboxes((cond>0),:),'unsafe','color','r');
+image = insertObjectAnnotation(image,'rectangle',bboxes((cond==0),:),'safe','color','g');
+ 
 % Display image detection
 imshow(image);
 
