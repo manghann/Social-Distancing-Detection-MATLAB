@@ -1,2 +1,2 @@
-# Social-Distancing-Detection-MATLAB
-A MATLAB program for Social Distance Tracking / Monitoring System
+# **[WIP]** Social Distancing Detection Using MATLAB 📚📐
+A *__MATLAB__* program for our **Social Distance Tracking / Monitoring System** Project
