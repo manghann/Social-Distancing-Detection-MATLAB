@@ -2,8 +2,10 @@
 clear, clc, close all
 
 % Image Selection
-[filename,pathname]=uigetfile('*.*','Select the Input Image');
-filewithpath=strcat(pathname,filename);
+[filename,pathname] = uigetfile(fullfile(pwd,'Images','*.*'),'Select an Image')
+fname = [filename]
+filewithpath = strcat(pathname,filename);
+
 image = imread(filewithpath);
 
 % Create detector variable & boxes for people detected in the image
@@ -34,3 +36,6 @@ image = insertObjectAnnotation(image,'rectangle',bboxes((cond==0),:),'safe','col
 % Display image detection
 imshow(image);
 
+% Save image
+filename = strcat(fname,' (SD_Detection).jpg');
+imwrite(image,filename);

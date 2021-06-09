@@ -2,24 +2,25 @@
 clear, clc, close all
 
 % Read video file
-[filename,pathname]=uigetfile('*.*','Select the Input Video');
-vidfile=strcat(pathname,filename);
+[filename,pathname] = uigetfile(fullfile(pwd,'Videos','*.*'),'Select a Video Clip')
+vidfile = strcat(pathname,filename);
+fname = strcat([filename],' (SD_Detection).avi');
 
-videoReader = vision.VideoFileReader(vidfile);
-videoPlayer = vision.VideoPlayer('Position',[300 100 1200 500]);
+video = vision.VideoFileReader(vidfile);
+videoPlayer = vision.VideoPlayer('Position',[300 100 1000 500]);
 
 % Create detector variable
 detector = peopleDetectorACF('caltech-50x21');
 
 % Writes (new) detection video (to save output)
-writerObj = VideoWriter('Video Detection Output.avi');
-writerObj.FrameRate = 8;    % FPS
+v = VideoWriter(fname);
+v.FrameRate = 8;    % FPS
 
 % Starts writing video 
-open(writerObj);
+open(v);
 
-while ~isDone(videoReader)
-    frame = step(videoReader);  % Get frame
+while ~isDone(video)
+    frame = step(video);  % Get frame
     I=double(frame);
     [bboxes,scores] = detect(detector,I);
     
@@ -45,12 +46,12 @@ while ~isDone(videoReader)
         
     step(videoPlayer,I);  
     frame = im2frame(I);
-    writeVideo(writeObj,frame);
+    writeVideo(v,frame);
 end
 
 % Display Video Detection
-release(videoReader);
+release(video);
 release(videoPlayer);
 
 % Close Video
-close(writerObj);
+close(v);
