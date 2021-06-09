@@ -14,7 +14,7 @@ A *__MATLAB__* application for our **Social Distance Tracking / Monitoring Syste
 
 ---
 ### Inputs
-You will be allowed to access the folders "Images" or "Videos" deopending on your file type of choice. 
+Through the buttons available, you will be allowed to access the folders "Images" or "Videos" depending on your file type of choice. 
 
 ### Outputs
 Both image and video outputs will be saved in the current folder directory.
