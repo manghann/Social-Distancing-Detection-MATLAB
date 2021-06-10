@@ -1,5 +1,5 @@
-# **[WIP]** Social Distancing Detection Using MATLAB 📚📐
-A *__MATLAB__* application for our **Social Distance Tracking / Monitoring System** Project implemented in R2017a version. The results that can be obtained are the following:
+# Social Distancing Detection Using MATLAB 📚📐
+A *__MATLAB__* application for our **Social Distance Tracking / Monitoring System** Project implemented in R2017a version using the __Computer Vision Toolbox__. The results that can be obtained are the following:
 
 ![dk-image](https://user-images.githubusercontent.com/81686626/121360954-71068800-c967-11eb-9ae2-239e63e8fd03.png)
 ![dk-video-loading](https://user-images.githubusercontent.com/81686626/121360959-7237b500-c967-11eb-91f8-d45af631db4f.png)
